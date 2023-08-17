@@ -18,7 +18,7 @@ const NoteBookEditor = () => {
 
         <div className={styles.textResult}>
             <p>
-                {insertText.length > 0 &&  "Krenar is gay + "}{insertText.toLocaleUpperCase()}
+                {insertText.toLocaleUpperCase()}
             </p>
         </div>
 
