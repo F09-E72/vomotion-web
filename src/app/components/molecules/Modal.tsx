@@ -55,7 +55,9 @@ const ModalComponent = ({addNotebook}: ModalProps) => {
             <Button onClick={
                 () => { 
                     setTitle("")
-                    addNotebook({Id: 3, Title: title})
+                    if(title)
+                        addNotebook({Id: 3, Title: title})
+                    onClose()
                 }
             } 
             colorScheme="blue" mr={3}>

@@ -14,9 +14,17 @@ interface Props {
   addNotebook: (notebook: NotebookProp) => void;
 }
 
+function RandomFromArray<T>(arr: T[]): T {
+
+  const random = Math.floor(Math.random() * arr.length);
+  return arr[random]
+
+}
+
 const NotebookGrid = ({ data, addNotebook }: Props): JSX.Element => {
 
   const [openModal, setOpenModal] = useState(false);
+  const colors = ["red", "blue", "green", "gray"]
 
   return (
     <>
@@ -24,7 +32,7 @@ const NotebookGrid = ({ data, addNotebook }: Props): JSX.Element => {
         {data.map((item) => {
           return (
             <WrapItem>
-              <Center w="120px" h="200px" bg="red.400">
+              <Center w="120px" h="200px" bg={`${RandomFromArray<string>(colors)}.400`}>
                 {item.Title.toUpperCase()}
               </Center>
             </WrapItem>
