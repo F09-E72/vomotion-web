@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Wrap, WrapItem, Center } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import ModalComponent from "../molecules/Modal";
+import { useRouter } from "next/navigation";
 
 export interface NotebookProp {
   Id: number;
@@ -23,6 +24,7 @@ function RandomFromArray<T>(arr: T[]): T {
 
 const NotebookGrid = ({ data, addNotebook }: Props): JSX.Element => {
 
+  const router = useRouter()
   const [openModal, setOpenModal] = useState(false);
   const colors = ["red", "blue", "green", "gray"]
 
@@ -32,7 +34,7 @@ const NotebookGrid = ({ data, addNotebook }: Props): JSX.Element => {
         {data.map((item) => {
           return (
             <WrapItem>
-              <Center w="120px" h="200px" bg={`${RandomFromArray<string>(colors)}.400`}>
+              <Center onClick={() => router.push(`editor/${item.Id}`)} cursor={`pointer`} wordBreak={"break-all"} userSelect={"none"} padding={"2"} w="120px" h="200px" bg={`${RandomFromArray<string>(colors)}.400`}>
                 {item.Title.toUpperCase()}
               </Center>
             </WrapItem>

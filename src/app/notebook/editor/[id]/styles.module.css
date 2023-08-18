@@ -1,0 +1,58 @@
+.container{
+    /* max-width: 100vw; */
+    
+    display: flex; 
+    flex-direction: column;
+    background-color: rgb(237, 172, 51);
+    margin: 20px;
+    padding: 10px;
+    height: 70vh;
+    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+}
+
+.translateBtn {
+    flex-shrink: 1;
+}
+
+.toolTip {
+    flex-shrink: 1;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.textContainer > * {
+    flex: 1;
+    margin: 10px;
+    padding: 15px;
+    font-size: 1.5em;
+    word-break: break-all;
+}
+
+.textContainer {
+    flex-grow: 1;
+    display: flex;
+    position: relative;
+    height: 100%;
+}
+
+.textContainer > * {
+    max-height: 100%;
+    height: auto;
+}
+
+.textarea {
+    outline: none;
+    resize: none;
+    background-color: rgb(255, 234, 203);
+}
+
+.textResult, .textarea {
+    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+}
+
+.textResult {
+    overflow: auto;
+    background-color: rgb(235, 235, 235);
+    user-select: none;
+    cursor: pointer;
+}

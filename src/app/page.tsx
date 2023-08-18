@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <div>
-        <Link href={"/notebook"}>Notebook</Link>
+        <Link href={"/notebook/new"}>Notebook</Link>
       </div>
     </main>
   )

@@ -47,7 +47,10 @@ const ModalComponent = ({addNotebook}: ModalProps) => {
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Title</FormLabel>
-              <Input ref={initialRef} onChange={(e) => setTitle(e.target.value)} value={title} placeholder="Title" />
+              <Input ref={initialRef} onChange={(e) => {
+                if(e.target.value.length < 40) 
+                  setTitle(e.target.value)
+                }} value={title} placeholder="Title" />
             </FormControl>
           </ModalBody>
 
