@@ -10,7 +10,7 @@ export interface Note extends baseNameModel {
 }
 
 interface baseNameModel {
-    Id: number,
+    Id?: number,
     DateAdded?: Date,
     DateUpdated?: Date
 }
@@ -35,12 +35,14 @@ export interface User extends baseNameModel {
     Email: string
 }
 
-export interface FlashCard extends baseNameModel {
+export interface FlashCard extends baseNameModel, FlashCardProperties {
     NoteId: number,
+}
+
+export interface FlashCardProperties {
     FrontWord: string,
     FrontSentence: string,
     BackWord: string,
     BackSentence: string,
-    FlashCardStateId: number,
     Severity: number
 }
