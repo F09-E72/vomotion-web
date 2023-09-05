@@ -21,45 +21,41 @@ const NoteBookEditor = () => {
         setTranslatedText(insertText.toLocaleUpperCase())
     }, [insertText])
 
+  const translateWord = (word: string): string => {
+    return word.toLocaleUpperCase();
+  }
   const saveToFlashCards = () => {
 
-    const sentences = splitIntoSentences(translatedText)
+    const sentencesOriginal = splitIntoSentences(insertText)
+    const sentencesTranslated = splitIntoSentences(translatedText)
     const allFlashCards: FlashCardProperties[] = []
     highlightQueries.forEach(query => {
-        const flashCards = buildFlashCards(query, sentences)
+        const flashCards = buildFlashCards(query, sentencesOriginal, sentencesTranslated)
         allFlashCards.push(...flashCards)
     })
 
     localSet<FlashCardProperties[]>("flashCards", allFlashCards)
   }
 
-  const buildFlashCards = (word: string, sentences: string[]): FlashCardProperties[] => {
+  const buildFlashCards = (word: string, sentencesOriginal: string[], sentencesTranslated: string[]): FlashCardProperties[] => {
     const flashCards: FlashCardProperties[] = []
-    sentences.forEach(sentence => {
-        if(sentence.includes(word)) flashCards.push({
+    sentencesTranslated.forEach((sentenceTranslated, index) => {
+
+        const originalSentence = sentencesOriginal[index]
+
+        if(sentenceTranslated.includes(word)) flashCards.push({
+            Id: index,
             FrontWord: word,
-            FrontSentence: sentence,
-            BackWord: word,
-            BackSentence: sentence,
+            FrontSentence: originalSentence,
+            BackWord: translateWord(word),
+            BackSentence: sentenceTranslated,
             Severity: 10
         })
     })
 
     return flashCards
-
   }
 
-  const setHighlights = (word: string) => {
-    if (highlightQueries.includes(word)) {
-      setHighlightQueries(highlightQueries.filter((item) => item != word));
-    } else {
-      setHighlightQueries([...highlightQueries, word]);
-    }
-  };
-
-  useEffect(() => {
-    console.log(highlightQueries);
-  });
 
   return (
     <>
@@ -71,6 +67,7 @@ const NoteBookEditor = () => {
         </h2> : <h2>Highlight unknown words and save them to flashcards</h2>}
         <div className={styles.textContainer}>
           {!showTranslated && <Textarea
+            data-lpignore
             onChange={(e) => {
               setInsertText(e.target.value);
             }}
@@ -80,7 +77,7 @@ const NoteBookEditor = () => {
 
           {showTranslated && (
             <div className={styles.textResult}>
-              <HighlightExact text={translatedText} color="blue.300" />
+              <HighlightExact text={translatedText} highlightQueries={highlightQueries} setHighlightQueries={setHighlightQueries} color="blue.300" />
             </div>
           )}
         </div>
