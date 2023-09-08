@@ -35,14 +35,15 @@ export interface User extends baseNameModel {
     Email: string
 }
 
-export interface FlashCardApiProps extends FlashCardProperties {
-    NoteId: number,
+export interface Deck extends baseNameModel {
+    NoteId?: number,
 }
 
-export interface FlashCardProperties extends baseNameModel {
+export interface FlashCard extends baseNameModel {
+    DeckId?: number,
     FrontWord: string,
-    FrontSentence: string,
+    FrontSentences: string[],
     BackWord: string,
-    BackSentence: string,
+    BackSentences: string[],
     Severity: number
 }

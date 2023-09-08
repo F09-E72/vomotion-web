@@ -4,10 +4,17 @@ import { useState, useEffect } from "react";
 import styles from "./styles.module.css";
 import { Textarea, Button, Text, Highlight } from "@chakra-ui/react";
 import HighlightExact from "@/app/components/molecules/HighlightExact";
-import { FlashCardProperties } from "@/app/types";
+import { Deck, FlashCard } from "@/app/types";
 import { splitIntoSentences, localGet, localSet } from "@/app/utils/utils";
 
-const NoteBookEditor = () => {
+interface Props {
+  params: {
+    id: number,
+    slug: string
+  }
+}
+
+const NoteBookEditor = ({params}: Props) => {
 
   const [insertText, setInsertText] = useState<string>(
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
@@ -26,31 +33,47 @@ const NoteBookEditor = () => {
   }
   const saveToFlashCards = () => {
 
+    const decks: Deck[] = localGet<Deck[]>("decks") || [];
+
+
     const sentencesOriginal = splitIntoSentences(insertText)
     const sentencesTranslated = splitIntoSentences(translatedText)
-    const allFlashCards: FlashCardProperties[] = []
-    highlightQueries.forEach(query => {
-        const flashCards = buildFlashCards(query, sentencesOriginal, sentencesTranslated)
+    const allFlashCards: FlashCard[] = []
+
+    highlightQueries.forEach((query, index) => {
+        const flashCards = buildFlashCards(query, index, sentencesOriginal, sentencesTranslated)
         allFlashCards.push(...flashCards)
     })
 
-    localSet<FlashCardProperties[]>("flashCards", allFlashCards)
+    localSet<FlashCard[]>("flashCards", allFlashCards)
   }
 
-  const buildFlashCards = (word: string, sentencesOriginal: string[], sentencesTranslated: string[]): FlashCardProperties[] => {
-    const flashCards: FlashCardProperties[] = []
+  const buildFlashCards = (word: string, tempIndex: number, sentencesOriginal: string[], sentencesTranslated: string[]): FlashCard[] => {
+    const flashCards: FlashCard[] = []
+    const exampleSentesOriginal: string[] = []
+    const exampleSentesTranslated: string[] = []
+
     sentencesTranslated.forEach((sentenceTranslated, index) => {
 
         const originalSentence = sentencesOriginal[index]
+        
+        if(sentenceTranslated.includes(word)) {
 
-        if(sentenceTranslated.includes(word)) flashCards.push({
-            Id: index,
+          exampleSentesOriginal.push(originalSentence)
+
+          exampleSentesTranslated.push(sentenceTranslated)
+
+        } 
+
+    })
+
+    flashCards.push({
+            Id: tempIndex,
             FrontWord: word,
-            FrontSentence: originalSentence,
+            FrontSentences: exampleSentesOriginal,
             BackWord: translateWord(word),
-            BackSentence: sentenceTranslated,
+            BackSentences: exampleSentesTranslated,
             Severity: 10
-        })
     })
 
     return flashCards

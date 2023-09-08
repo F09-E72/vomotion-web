@@ -14,6 +14,7 @@ export function localSet<T>(key: string, item: T){
 }
 
 export function localGet<T>(key: string): T|null {
+  if(typeof window == "undefined") return null
   const item = localStorage.getItem(key)
   if(item) {
     return JSON.parse(item)
