@@ -9,7 +9,7 @@ import { splitIntoSentences, localGet, localSet } from "@/app/utils/utils";
 
 interface Props {
   params: {
-    id: number,
+    id: string,
     slug: string
   }
 }
@@ -33,7 +33,6 @@ const NoteBookEditor = ({params}: Props) => {
   }
   const saveToFlashCards = () => {
 
-    const decks: Deck[] = localGet<Deck[]>("decks") || [];
 
 
     const sentencesOriginal = splitIntoSentences(insertText)
@@ -45,6 +44,8 @@ const NoteBookEditor = ({params}: Props) => {
         allFlashCards.push(...flashCards)
     })
 
+    
+    
     localSet<FlashCard[]>("flashCards", allFlashCards)
   }
 
