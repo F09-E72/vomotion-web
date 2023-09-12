@@ -7,11 +7,12 @@ interface ButtonProps {
     type?: "submit" | "button" | "reset"
     colorScheme?: "main" | "secondary" 
     children: any
+    className?: string
 }
 
-const Button = ({onClick = () => {}, type = "submit", children, colorScheme = "main"}: ButtonProps) => {
+const Button = ({onClick = () => {}, type = "submit", children, className, colorScheme = "main"}: ButtonProps) => {
     return (<>
-    <button onClick={onClick} type={type} className={`rounded p-2 text-lg shadow-sm ${colorScheme == "main" ? "bg-blue-200 text-black": "text-blue-400 shadow-blue-400"}`}>{children}</button>
+    <button onClick={onClick} type={type} className={`rounded  p-2 text-lg shadow-sm ${colorScheme == "main" ? "bg-blue-200 text-black": "text-blue-400 shadow-blue-400"} ${className}`}>{children}</button>
     </>);
 }
  

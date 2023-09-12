@@ -15,6 +15,11 @@ const Navigation = () => {
             label: "Notebooks"
         },
 
+        {
+            to: "/chat",
+            label: "Chat"
+        },
+
 
     ]
     return ( <>
