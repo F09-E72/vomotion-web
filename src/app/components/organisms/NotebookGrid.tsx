@@ -4,6 +4,8 @@ import { Wrap, WrapItem, Center } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import ModalComponent from "../molecules/Modal";
 import { useRouter } from "next/navigation";
+import RandomFromArray from "@/app/utils/randFromArray";
+import LinkGallery from "../molecules/LinkGallery";
 
 export interface NotebookProp {
   Id: number;
@@ -15,12 +17,7 @@ interface Props {
   addNotebook: (notebook: NotebookProp) => void;
 }
 
-function RandomFromArray<T>(arr: T[]): T {
 
-  const random = Math.floor(Math.random() * arr.length);
-  return arr[random]
-
-}
 
 const NotebookGrid = ({ data, addNotebook }: Props): JSX.Element => {
 
@@ -31,15 +28,8 @@ const NotebookGrid = ({ data, addNotebook }: Props): JSX.Element => {
   return (
     <>
       <Wrap>
-        {data.map((item) => {
-          return (
-            <WrapItem>
-              <Center onClick={() => router.push(`editor/${item.Id}`)} cursor={`pointer`} wordBreak={"break-all"} userSelect={"none"} padding={"2"} w="120px" h="200px" bg={`${RandomFromArray<string>(colors)}.400`}>
-                {item.Title.toUpperCase()}
-              </Center>
-            </WrapItem>
-          );
-        })}
+       
+       <LinkGallery url="editor" data={data} colors={colors}/>
         <WrapItem onClick={() => setOpenModal(true)}>
           <Center w="120px" h="200px">
             <ModalComponent addNotebook={addNotebook}/>
